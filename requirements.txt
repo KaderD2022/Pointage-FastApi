@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+sqlalchemy
+passlib
+python-jose
+python-multipart
+qrcode
+pillow
+python-dateutil
+pydantic
+reportlab
+psycopg2-binary # Pour PostgreSQL
