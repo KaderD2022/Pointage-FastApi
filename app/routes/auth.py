@@ -1,16 +1,16 @@
+# app/routes/auth.py
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from datetime import timedelta
-from app.routes import qrcodes  # Ajouter cette ligne
+
 from app.database import get_db
 from app.models.employee import Employee
 from app.schemas.auth import Token
 from app.utils.auth import (
     verify_password,
     create_access_token,
-    ACCESS_TOKEN_EXPIRE_MINUTES,
-    pwd_context
+    ACCESS_TOKEN_EXPIRE_MINUTES
 )
 
 router = APIRouter(tags=["Authentication"])
@@ -30,7 +30,12 @@ async def login_for_access_token(
     
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": employee.email}, expires_delta=access_token_expires
+        data={"sub": employee.email, "role": "admin" if employee.is_admin else "employee"},
+        expires_delta=access_token_expires
     )
     
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token, 
+        "token_type": "bearer",
+        "role": "admin" if employee.is_admin else "employee"  # ⬅️ Ajoutez ce champ
+    }

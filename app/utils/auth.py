@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.employee import Employee
 from app.schemas.auth import TokenData
-
+from passlib.context import CryptContext
 # Configuration
 SECRET_KEY = "votre_secret_key_secure"
 ALGORITHM = "HS256"
