@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import auth, employees, attendance, leaves, reports, admin
+from app.routes import activity, auth, employees, attendance, leaves, reports, admin, stats
 from app.database import engine, Base
 from app.routes import qrcodes  # Ajouter cette ligne
 app = FastAPI(title="Pointage API", version="1.0.0")
@@ -35,6 +35,8 @@ app.include_router(leaves.router)
 app.include_router(reports.router)
 app.include_router(qrcodes.router) 
 app.include_router(admin.router)# Ajouter cette ligne
+app.include_router(stats.router)
+app.include_router(activity.router)
 @app.get("/")
 def read_root():
     return {"message": "Bienvenue sur l'API de pointage"}
